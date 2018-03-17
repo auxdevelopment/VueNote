@@ -1,6 +1,7 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const cors = require('cors');
+const shortid = require('shortid');
 
 const adapter = new FileSync('db.json');
 const db = low(adapter);
@@ -25,7 +26,7 @@ app.use(cors());
 // Routes
 
 app.route('/notes').get(getAllNotes);
-app.route('/note').post(addNewNote);
+app.route('/note').post(addNewNote).delete(removeNote);
 
 // End Routes
 
@@ -38,6 +39,7 @@ function getAllNotes(req, res) {
 A note looks like this:
 
 note: {
+    id: string;
     title: string;
     content: string;
 }
@@ -48,16 +50,32 @@ function addNewNote(req, res) {
     const noteContent = req.body.content;
 
     if (!noteTitle || !noteContent) {
-        res.status(500).json({ 'error': 'body must containt "title" and "content" attribute' });
+        res.status(500).json({ 'error': 'body must contain "title" and "content" attribute' });
         return;
     }
 
     db.get('notes').push({
+        'id': shortid.generate(),
         'title': noteTitle,
         'content': noteContent
     }).write();
 
     res.json({ 'status': 'created' });
+}
+
+function removeNote(req, res) {
+    const noteId = req.body.id;
+
+    if (!noteId) {
+        res.status(500).json({ 'error' : 'body must contain "id" attribute' });
+        return;
+    }
+
+    db.get('notes').remove({
+        id: noteId
+    }).write();
+
+    res.json({ message: 'deleted' });
 }
 
 
