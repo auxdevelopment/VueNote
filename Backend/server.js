@@ -1,5 +1,6 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
+const cors = require('cors');
 
 const adapter = new FileSync('db.json');
 const db = low(adapter);
@@ -18,6 +19,7 @@ const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 
 // Routes
