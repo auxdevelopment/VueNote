@@ -52,7 +52,9 @@ header {
   background-color: #34495e;
 
   padding: 10px;
-  margin: 10px;
+  margin: 15%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .button {
@@ -71,5 +73,11 @@ header {
 
 button:hover {
   background-color: #95a5a6;
+}
+
+@media screen and (max-width: 1000px) {
+  .content-container {
+    margin: 10px;
+  }
 }
 </style>

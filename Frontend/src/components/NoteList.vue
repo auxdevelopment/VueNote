@@ -1,12 +1,14 @@
 <template>
   <div>
-    <header>VueNote - Note list</header>
+    <header>VueNote</header>
 
     <div class="content-container note-list-container">
         <button id="addButton" class="button" v-on:click="addNote()">New Note</button>
         <note-list-entry v-for=" (note, index) in this.notes" :key="index"
                          v-bind:title="note.title"
                          v-bind:content="note.content"
+                         v-bind:id="note.id"
+                         v-bind:reloadCallback="loadNotes"
         >
         </note-list-entry>
     </div>
@@ -47,9 +49,9 @@ export default {
 </script>
 
 <style scoped>
-  /* overwrite default margin-bottom of NoteListEntry */
-  .note-list-container > :last-child {
-    margin-bottom: 0;
-  }
+/* overwrite default margin-bottom of NoteListEntry */
+.note-list-container > :last-child {
+  margin-bottom: 0;
+}
 </style>
 
